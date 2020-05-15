@@ -1,0 +1,20 @@
+{
+    "name": "dating-website",
+    "description": "a dating app feature made by me",
+    "version": "1.0.0",
+    "homepage": "https://github.com/IrisvanOllefen/project-tech",
+    "author": "Iris van Ollefen (htttps://github.com/IrisvanOllefen)",
+    "repository": "https://github.com/IrisvanOllefen/project-tech",
+    "dependencies": {
+        "cowsay": "^1.4.0",
+        "lodash": "^4.17.15"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js",
+        "cow": "cowsay The cow has something to say..."
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.3"
+    }
+}
