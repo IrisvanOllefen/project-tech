@@ -4,7 +4,8 @@
   "description": "A dating app for book lovers",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/IrisvanOllefen/project-tech/issues"
   },
-  "homepage": "https://github.com/IrisvanOllefen/project-tech#readme"
+  "homepage": "https://github.com/IrisvanOllefen/project-tech#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.6"
+  }
 }
