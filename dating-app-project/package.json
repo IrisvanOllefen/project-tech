@@ -1,0 +1,24 @@
+{
+  "name": "dating-app-project",
+  "version": "1.0.0",
+  "description": "A dating app for book lovers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IrisvanOllefen/project-tech.git"
+  },
+  "keywords": [
+    "dating",
+    "book",
+    "booklovers",
+    "online-dating"
+  ],
+  "author": "Iris van Ollefen",
+  "bugs": {
+    "url": "https://github.com/IrisvanOllefen/project-tech/issues"
+  },
+  "homepage": "https://github.com/IrisvanOllefen/project-tech#readme"
+}
