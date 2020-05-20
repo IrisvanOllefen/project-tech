@@ -8,38 +8,32 @@ const fs = require("fs");
 const path = require("path");
 const Handlebars = require("handlebars");
 
-// creating a template with my header inside to make it in to a partial so I can call it on multiple pages
-const headerTemplate = fs.readFileSync(
-  path.join(__dirname, "views/header.html"),
-  "utf-8"
-);
+function readViewContent(fileName) {
+  const viewFileContent = fs.readFileSync(
+    path.join(__dirname, `views/${fileName}.html`),
+    "utf-8"
+  );
+  return viewFileContent;
+}
+
+function renderViewContent(fileName) {
+  const content = readViewContent(fileName);
+  return Handlebars.compile(content);
+}
 
 // creating a variable that will compile the header template
-const renderHeader = Handlebars.compile(headerTemplate);
+const renderHeader = renderViewContent("header");
+const renderFooter = renderViewContent("footer");
 
 // registering the header partial
-Handlebars.registerPartial("myPartial", renderHeader);
-
-// this is where my chat overview page is coming from, which I also put in a template so it easy to use again
-const chatOverviewTemplate = fs.readFileSync(
-  path.join(__dirname, "views/chat-overview-page.html"),
-  "utf-8"
-);
+Handlebars.registerPartial("header", renderHeader);
+Handlebars.registerPartial("footer", renderFooter);
 
 // rendering the chat overview template and compiling that using handlebars
-const renderChatOverViewTemplate = Handlebars.compile(chatOverviewTemplate);
-
-// registering the header partial
-Handlebars.registerPartial("myPartial", renderHeader);
-
-// this is where my chat overview page is coming from, which I also put in a template so it easy to use again
-const newMatchTemplate = fs.readFileSync(
-  path.join(__dirname, "views/new-match.html"),
-  "utf-8"
-);
+const renderChatOverViewTemplate = renderViewContent("chat-overview-page");
 
 // rendering the chat overview template and compiling that using handlebars
-const renderNewMatchTemplate = Handlebars.compile(newMatchTemplate);
+const renderNewMatchTemplate = renderViewContent("new-match");
 
 // creating routes
 app.use(express.static("public"));
