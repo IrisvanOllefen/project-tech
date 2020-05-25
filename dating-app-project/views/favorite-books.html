@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/stylesheet.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Rozha+One&display=swap"
+      rel="stylesheet"
+    />
+    <title>What are your favorite books?</title>
+  </head>
+  <body>
+    {{> header }}
+    <main>
+      <form action="/results" method="POST">
+        <h1>What are your 3 favorite books?</h1>
+        <div class="labelsfaves">
+          <label for="">
+            Number 1
+            <input type="text" name="book1" />
+          </label>
+          <label for="">
+            Number 2
+            <input type="text" name="book2" />
+          </label>
+          <label for="">
+            Number 3
+            <input type="text" name="book3" />
+          </label>
+        </div>
+        <h1>What book are you currently reading?</h1>
+        <div class="currentread">
+          <label for="">
+            Currently:
+            <input type="text" name="bookcurrent" />
+          </label>
+          <input class="submitButton" type="submit" value="Go!" />
+        </div>
+      </form>
+    </main>
+    {{> footer }}
+  </body>
+</html>

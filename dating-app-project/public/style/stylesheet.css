@@ -15,6 +15,7 @@
   justify-content: center;
   font-size: 2rem;
   color: #b0cbbf;
+  margin: auto;
 }
 
 .footer {
@@ -38,6 +39,19 @@
   display: flex;
   font-size: 1.5rem;
   color: #b0cbbf;
+}
+
+.footer a {
+  link-decoration: none;
+  color: #b0cbbf;
+}
+
+.footer a:hover {
+  color: black;
+}
+
+.footer a:active {
+  color: white;
 }
 
 main {
@@ -166,6 +180,59 @@ li {
 .starttalkingbutton:active {
   background-color: #b0cbbf;
   color: #f4ede5;
+}
+
+form {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.labelsfaves {
+  display: flex;
+  flex-direction: column;
+}
+
+.currentread {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+label {
+  padding: 1rem;
+  color: black;
+  font-weight: 1000;
+}
+
+input {
+  margin: 1rem;
+  padding: 0.5em;
+  width: 20em;
+  border-color: #cdc2c0;
+  border-width: 0.3em;
+  border-style: solid;
+}
+
+.submitButton {
+  width: auto;
+  background-color: #cdc2c0;
+  height: 4em;
+  font-family: "Montserrat", sans-serif;
+  font-size: inherit;
+  font-weight: 1000;
+  text-align: left;
+  padding: 1em;
+  margin-right: 7em;
+}
+
+.h2v2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  padding: 0.2em;
+  margin-left: 0.3rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-weight: 600;
 }
 
 @media screen and (max-width: 1200px) {

@@ -7,6 +7,9 @@ const app = express();
 const fs = require("fs");
 const path = require("path");
 const Handlebars = require("handlebars");
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 function readViewContent(fileName) {
   const viewFileContent = fs.readFileSync(
@@ -35,6 +38,12 @@ const renderChatOverViewTemplate = renderViewContent("chat-overview-page");
 // rendering the chat overview template and compiling that using handlebars
 const renderNewMatchTemplate = renderViewContent("new-match");
 
+const renderFavoriteBooksTemplate = renderViewContent("favorite-books");
+
+const renderFavoriteBooksResultsTemplate = renderViewContent(
+  "your-faves-result"
+);
+
 // creating routes
 app.use(express.static("public"));
 
@@ -49,6 +58,16 @@ app.get("/new-match", (req, res) => {
   res.send(newTemplate);
 });
 
+app.get("/favorite-books", (req, res) => {
+  const newTemplate = renderFavoriteBooksTemplate();
+  res.send(newTemplate);
+});
+
+app.post("/results", (req, res) => {
+  console.log(req.body);
+  const newTemplate = renderFavoriteBooksResultsTemplate({ body: req.body });
+  res.send(newTemplate);
+});
 // // creating a partial for the header and footer
 
 // on which port it will listen
