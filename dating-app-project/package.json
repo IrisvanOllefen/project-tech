@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/IrisvanOllefen/project-tech#readme",
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "eslint": "^7.1.0",
+    "nodemon": "^2.0.4",
+    "prettier": "2.0.5"
   },
   "dependencies": {
     "handlebars": "^4.7.6"
