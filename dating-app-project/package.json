@@ -28,6 +28,7 @@
     "prettier": "2.0.5"
   },
   "dependencies": {
-    "handlebars": "^4.7.6"
+    "handlebars": "^4.7.6",
+    "mongodb": "^3.5.7"
   }
 }
