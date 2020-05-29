@@ -1,3 +1,5 @@
 node_modules/
 .DS_Store
 .env
+./dating-app-project/test.js
+./dating-app-project/insert-data.js

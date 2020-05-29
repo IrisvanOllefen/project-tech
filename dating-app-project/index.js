@@ -1,79 +1,75 @@
-// Using this console.log to see if my node index.js in scripts is working
+// First of all I want to require dotenv so my .env file will leave out some things during fetching to GitHub
+require("dotenv").config();
+// Using this console.log to see if my node index.js in scripts is working (I did this in the beginning when first making my index.js file)
 console.log("Hello World!");
 
 // requiring the needed things and packages etc.
 const express = require("express");
 const app = express();
-const fs = require("fs");
-const path = require("path");
-const Handlebars = require("handlebars");
+const hbs = require("hbs");
 const bodyParser = require("body-parser");
+// requiring the database through { MongoClient }
+const { MongoClient } = require("mongodb");
 
+app.set("view engine", "hbs");
+hbs.registerPartials(__dirname + "/views/partials", function (err) {});
+
+// here I am creating a URL for the connection with my database/server
+const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/test?retryWrites=true&w=majority`;
+// I created the first client as well and had to add useNewUrlParser and useUnifiedTopology because I kept on getting warnings in my console. It had to do something with those things becoming depricated in newer versions. But I did not look too much in to it.
+const client = new MongoClient(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// bodyParser parses most things you give it so it is very convenient to work with it.
+// the urlencoded is what browsers use to send forms, and since I am using a form I need to include this piece of code.
 app.use(bodyParser.urlencoded({ extended: false }));
 
-function readViewContent(fileName) {
-  const viewFileContent = fs.readFileSync(
-    path.join(__dirname, `views/${fileName}.html`),
-    "utf-8"
-  );
-  return viewFileContent;
-}
-
-function renderViewContent(fileName) {
-  const content = readViewContent(fileName);
-  return Handlebars.compile(content);
-}
-
-// creating a variable that will compile the header template
-const renderHeader = renderViewContent("header");
-const renderFooter = renderViewContent("footer");
-
-// registering the header partial
-Handlebars.registerPartial("header", renderHeader);
-Handlebars.registerPartial("footer", renderFooter);
-
-// rendering the chat overview template and compiling that using handlebars
-const renderChatOverViewTemplate = renderViewContent("chat-overview-page");
-
-// rendering the chat overview template and compiling that using handlebars
-const renderNewMatchTemplate = renderViewContent("new-match");
-
-const renderFavoriteBooksTemplate = renderViewContent("favorite-books");
-
-const renderFavoriteBooksResultsTemplate = renderViewContent(
-  "your-faves-result"
-);
-
-// creating routes
+// telling where my public folder is and that they can use it
 app.use(express.static("public"));
 
-// creating a route which will deliver my chat overview page which will consist the header
+// creating a route which will deliver my chat overview page which will contain the header and footer, thanks to previous code.
 app.get("/", (req, res) => {
-  const newTemplate = renderChatOverViewTemplate();
-  res.send(newTemplate);
+  res.render("chat-overview-page");
 });
 
+// creating a route which will deliver my new match page which will contain the header and footer, thanks to previous code.
 app.get("/new-match", (req, res) => {
-  const newTemplate = renderNewMatchTemplate();
-  res.send(newTemplate);
+  res.render("new-match");
 });
 
-app.get("/favorite-books", (req, res) => {
-  const newTemplate = renderFavoriteBooksTemplate();
-  res.send(newTemplate);
+// creating a route which will lead to a form where a user can enter their favorite books and current read
+app.get("/favorite-books", async (req, res) => {
+  // we defined client earlier and now I am using the connect method so we can connect to the server
+  // const collection = client.db("myDatingApp").collection("books");
+  console.log("Connected correctly to server");
+
+  res.render("favorite-books");
 });
 
-app.post("/results", (req, res) => {
-  console.log(req.body);
-  const newTemplate = renderFavoriteBooksResultsTemplate({ body: req.body });
-  res.send(newTemplate);
-});
-// // creating a partial for the header and footer
+app.post("/results", async (req, res) => {
+  // we defined client earlier and now I am using the connect method so we can connect to the server
+  const collection = client.db("myDatingApp").collection("books");
+  console.log("Connected correctly to server");
 
-// on which port it will listen
-const server = app.listen(8000, () => {
-  console.log(
-    "Your dating app is now running at http://localhost:" +
-      server.address().port
-  );
+  await collection.insertOne({ name: req.body.book1 });
+  await collection.insertOne({ name: req.body.book2 });
+  await collection.insertOne({ name: req.body.book3 });
+  await collection.insertOne({ name: req.body.bookcurrent });
+
+  res.render("your-faves-result", { body: req.body });
 });
+
+async function run() {
+  await client.connect();
+  // on which port it will listen
+  const server = app.listen(8000, () => {
+    console.log(
+      "Your dating app is now running at http://localhost:" +
+        server.address().port
+    );
+  });
+}
+
+run();
