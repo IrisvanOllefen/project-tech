@@ -8,6 +8,7 @@ const express = require("express");
 const app = express();
 const hbs = require("hbs");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 // requiring the database through { MongoClient }
 const { MongoClient } = require("mongodb");
 
@@ -35,7 +36,11 @@ app.get("/", (req, res) => {
 });
 
 // creating a route which will deliver my new match page which will contain the header and footer, thanks to previous code.
-app.get("/new-match", (req, res) => {
+app.get("/new-match", async (req, res) => {
+  // const collection = client.db("myDatingApp".collection("users"));
+  // console.log("Connected correctly to server");
+
+  // await collection.findOne({ gender: "female" });
   res.render("new-match");
 });
 
