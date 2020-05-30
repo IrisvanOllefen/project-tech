@@ -1,0 +1,25 @@
+{{#> layout }}
+<main>
+    <h1>All Matches</h1>
+    <!-- I decided to divide new matches and existing matches for a more clear-looking overview. -->
+    <h2>New Matches</h2>
+
+    <section class="person">
+        <img src="images/profilepic1.jpg" alt="profilepic1" />
+        <a class="matchName" href="/new-match">
+            <p>Allison</p>
+        </a>
+    </section>
+
+    <h2>Existing Matches</h2>
+
+    <div class="existingMatches">
+        {{#each users}}
+        <section class="person">
+            <img src="images/profilepic2.jpg" alt="profilepic2" />
+            <p>{{this.name}}</p>
+        </section>
+        {{/each}}
+    </div>
+</main>
+{{/layout}}

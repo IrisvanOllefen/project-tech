@@ -1,0 +1,14 @@
+<header class="header">
+    <h1>Novel Love</h1>
+    <form action="/login" method="POST">
+        <select name="userId">
+            <option value="">Select User</option>
+            {{#each users}}
+            <option value="{{this._id}}">
+                {{this.name}}
+            </option>
+            {{/each}}
+        </select>
+        <input type="submit" value="Go" />
+    </form>
+</header>
