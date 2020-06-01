@@ -4,8 +4,8 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const multer = require("multer");
 const UserModel = require("./models/user");
-const MatchesModel = require("./models/matches");
 
 // add .env support
 require("dotenv").config();
@@ -15,6 +15,22 @@ const MONGO_URL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@$
 
 // then all other variables
 const app = express();
+
+// using multer to make uploading images to the profile possible
+const upload = multer({
+  dest: "public/uploads/",
+  limits: { fileSize: 5000000 },
+  fileFilter: function fileFilter(req, file, cb) {
+    // if the mimetype of an uploaded image is not image/png or image/jpeg, the callback will return false and the file can not be uploaded
+    if (file.mimetype === "image/png") {
+      cb(null, true);
+    } else if (file.mimetype === "image/jpeg") {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  },
+});
 
 // settings
 // the view engine is hbs, it gives res.render, to render a file and send it to the browser
@@ -45,7 +61,11 @@ app.use(
 app.use(async (req, res, next) => {
   if (req.session.userId) {
     // all information about the logged in user will be available under req.user
-    const user = await UserModel.findById(req.session.userId).exec();
+    const user = await UserModel.findById(req.session.userId)
+      // populate queries all matches from the user collection
+      .populate("matches")
+      // this just is to execute the query
+      .exec();
     if (user) {
       req.user = user;
     }
@@ -59,7 +79,12 @@ app.get("/", async (req, res) => {
   // looking for all users in the UserModel to make them available in the header to switch users
   const users = await UserModel.find({}).exec();
   // rendering the index page, giving it a specifc title for inside the head, and giving it the users for in the drop down menu
-  res.render("index", { title: "Chat Overview Page", users });
+  res.render("index", {
+    title: "Chat Overview Page",
+    users,
+    // check if a user is logged in to show matches, if user is not logged in, you return null so no matches are visible.
+    matches: req.user ? req.user.matches : null,
+  });
 });
 
 // login route
@@ -75,6 +100,11 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/edit-profile", async (req, res) => {
+  // if a user is not logged in, you will be redirected to the home page so you can't get to the edit profile page
+  if (!req.user) {
+    res.redirect("/");
+    return;
+  }
   // render the edit profile page
   res.render("edit-profile", {
     title: "Edit Profile Page",
@@ -83,7 +113,13 @@ app.get("/edit-profile", async (req, res) => {
   });
 });
 
-app.post("/edit-profile", async (req, res) => {
+app.post("/edit-profile", upload.single("profilepicture"), async (req, res) => {
+  if (!req.user) {
+    res.redirect("/");
+    return;
+  }
+  // all information received through req.body (using body-parser) will be stored inside req.user and placed in the database
+  req.user.profilepicture = req.file.filename;
   req.user.name = req.body.name;
   req.user.age = req.body.age;
   req.user.favoriteBooks = req.body["books[]"];
@@ -104,29 +140,25 @@ async function run() {
     useUnifiedTopology: true,
   });
 
-  // const allison = await UserModel.findOne({ name: "Allison" }).exec();
-  // const dennis = await UserModel.findOne({ name: "Dennis" }).exec();
-  // const bob = await UserModel.findOne({ name: "Bob" }).exec();
-  // const gerrit = await UserModel.findOne({ name: "Gerrit" }).exec();
+  const iris = await UserModel.findOne({ name: "Iris" }).exec();
+  const allison = await UserModel.findOne({ name: "Allison" }).exec();
+  const dennis = await UserModel.findOne({ name: "Dennis" }).exec();
+  const bob = await UserModel.findOne({ name: "Bob" }).exec();
+  const denise = await UserModel.findOne({ name: "Denise" }).exec();
+  const gerrit = await UserModel.findOne({ name: "Gerrit" }).exec();
 
-  // const match1 = new MatchesModel();
-  // match1.users = [allison._id, dennis._id];
-  // await match1.save();
-
-  // allison.matches.push(match1._id);
-  // await allison.save();
-  // dennis.matches.push(match1._id);
-  // await dennis.save();
-
-  // // const match2 = new MatchesModel();
-  // // match2.users = [allison._id, gerrit._id];
-  // // await match2.save();
-
-  // const allison2 = await UserModel.findOne({ name: "Allison" })
-  //   .populate("matches")
-  //   .exec();
-
-  // console.log(allison2);
+  iris.matches = [bob._id, gerrit._id];
+  await iris.save();
+  allison.matches = [dennis._id, bob._id, gerrit._id];
+  await allison.save();
+  dennis.matches = [allison._id, denise._id];
+  await dennis.save();
+  bob.matches = [iris._id, allison._id, denise._id];
+  await bob.save();
+  denise.matches = [dennis._id, bob._id];
+  await denise.save();
+  gerrit.matches = [iris._id, allison._id];
+  await gerrit.save();
 
   // the express server will run on port 8000
   app.listen(8000, () => {

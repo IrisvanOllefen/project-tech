@@ -1,9 +1,14 @@
 {{#> layout }}
 <main class="editprofile">
     <!-- This form has the action that sends you to the result page. It does this by using the post method. -->
-    <form action="/edit-profile" method="POST">
+    <form action="/edit-profile" method="POST" enctype="multipart/form-data">
         <h1>Welcome back to your profile, {{user.name}}!</h1>
         <div class="personalinfo">
+            <label for="">
+                Profile Picture
+                <input type="file" name="profilepicture" accept="image/png, image/jpeg">
+                <img src="/uploads/{{user.profilepicture}}" alt="Profile Picture" width="200">
+            </label>
             <label for="">
                 Name
                 <input type="text" name="name" value="{{user.name}}" />

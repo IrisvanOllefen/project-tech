@@ -2,9 +2,9 @@
 <main>
     <h1> Matches</h1>
     <div class="matches">
-        {{#each users}}
+        {{#each matches}}
         <section class="match">
-            <img src="images/profilepic2.jpg" alt="profilepic2" />
+            <img src="/uploads/{{this.profilepicture}}" alt="Profile Picture" width="200">
             <p>{{this.name}}</p>
         </section>
         {{/each}}
