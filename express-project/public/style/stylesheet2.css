@@ -42,6 +42,10 @@ select {
   flex-direction: column;
 }
 
+.header a {
+  text-decoration: none;
+}
+
 /* footer partial */
 
 .footer {
@@ -85,7 +89,7 @@ main {
   font-family: "Montserrat", sans-serif;
   padding-left: 15rem;
   padding-right: 15rem;
-  padding-bottom: 5rem;
+  min-height: calc(100vh - 350px);
 }
 
 main h1 {
@@ -122,12 +126,17 @@ main h1 {
   font-size: 1rem;
 }
 
+.editprofile img {
+  display: block;
+  margin-bottom: 1rem;
+}
+
 .editprofile input {
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   margin: 0.3rem;
-  width: 15rem;
+  width: 20rem;
   border-color: #cdc2c0;
   border-width: 0.2rem;
   border-style: solid;
@@ -135,4 +144,11 @@ main h1 {
   padding-left: 0.5rem;
   margin-left: 0;
   margin-bottom: 1rem;
+}
+
+input[type="submit"] {
+  background-color: #cdc2c0;
+  padding: 1rem;
+  width: inherit;
+  margin-top: 2rem;
 }

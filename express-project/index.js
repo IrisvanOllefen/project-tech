@@ -140,26 +140,6 @@ async function run() {
     useUnifiedTopology: true,
   });
 
-  const iris = await UserModel.findOne({ name: "Iris" }).exec();
-  const allison = await UserModel.findOne({ name: "Allison" }).exec();
-  const dennis = await UserModel.findOne({ name: "Dennis" }).exec();
-  const bob = await UserModel.findOne({ name: "Bob" }).exec();
-  const denise = await UserModel.findOne({ name: "Denise" }).exec();
-  const gerrit = await UserModel.findOne({ name: "Gerrit" }).exec();
-
-  iris.matches = [bob._id, gerrit._id];
-  await iris.save();
-  allison.matches = [dennis._id, bob._id, gerrit._id];
-  await allison.save();
-  dennis.matches = [allison._id, denise._id];
-  await dennis.save();
-  bob.matches = [iris._id, allison._id, denise._id];
-  await bob.save();
-  denise.matches = [dennis._id, bob._id];
-  await denise.save();
-  gerrit.matches = [iris._id, allison._id];
-  await gerrit.save();
-
   // the express server will run on port 8000
   app.listen(8000, () => {
     // immediately give url to click open through terminal

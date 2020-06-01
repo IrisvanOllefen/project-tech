@@ -1,6 +1,7 @@
 module.exports = {
   env: {
-    browser: true,
+    browser: false,
+    node: true,
     commonjs: true,
     es6: true,
   },
@@ -13,7 +14,7 @@ module.exports = {
     ecmaVersion: 11,
   },
   rules: {
-    indent: ["error", "tab"],
+    indent: ["error", 2],
     "linebreak-style": ["error", "unix"],
     quotes: ["error", "double"],
     semi: ["error", "always"],

@@ -2,32 +2,27 @@
 <main>
     <h1>You have a new match!</h1>
 
-    <div class="newMatch">
-        <h2 class="gridItemOne">Allison</h2>
+    <img src="/uploads/{{this.profilepicture}}" alt="Profile Picture" width="200">
+    <h2>{{this.name}}</h2>
 
-        <section class="gridItemTwo">
-            <img id="newmatchpicture" src="images/profilepic1.jpg" alt="profilepic1" />
-        </section>
+    <section class="favoriteBooks">
+        <h3>These are {{this.name}}'s favorite books: </h3>
+        <p> {{match.favoriteBooks.[0]}}</p>
+        <p> {{match.favoriteBooks.[1]}}</p>
+        <p> {{match.favoriteBooks.[2]}}</p>
+    </section>
 
-        <section class="gridItemThree">
-            <h3>Favorite Books</h3>
-            <ol>
-                <li>Book Name1</li>
-                <li>Book Name2</li>
-                <li>Book Name3</li>
-            </ol>
-        </section>
+    <section class="currentlyReading">
+        <h3>This is the book {{this.name}} is currently reading: </h3>
+        <p> {{match.currentBook}}</p>
+    </section>
 
-        <section class="gridItemFour">
-            <h3>Currently Reading</h3>
-            <ul>
-                <li>Book Name4</li>
-            </ul>
-            <button type="button" class="starttalkingbutton">
-                Start Talking!
-            </button>
-        </section>
-    </div>
+    <section class="talkButton">
+        <button type="button">
+            Start Talking!
+        </button>
+    </section>
+
 </main>
 
 {{/layout}}
