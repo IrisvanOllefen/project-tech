@@ -7,6 +7,10 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   name: String,
   age: Number,
+  // what if I turn it in to an object and give it the object name it has in the database? is that a possibility?
+  favoriteBooks: [String],
+  currentBook: String,
+  matches: [{ type: Schema.Types.ObjectId, ref: "Matches" }],
 });
 
 // registers UserSchema with mongoose

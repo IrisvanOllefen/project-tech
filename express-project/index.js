@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const UserModel = require("./models/user");
+const MatchesModel = require("./models/matches");
 
 // add .env support
 require("dotenv").config();
@@ -73,6 +74,27 @@ app.post("/login", async (req, res) => {
   res.redirect("/");
 });
 
+app.get("/edit-profile", async (req, res) => {
+  // render the edit profile page
+  res.render("edit-profile", {
+    title: "Edit Profile Page",
+    // making sure it contains the req.user properties (name and age) in the input fields
+    user: req.user,
+  });
+});
+
+app.post("/edit-profile", async (req, res) => {
+  req.user.name = req.body.name;
+  req.user.age = req.body.age;
+  req.user.favoriteBooks = req.body["books[]"];
+  req.user.currentBook = req.body.currentBook;
+  await req.user.save();
+  res.render("edit-profile", {
+    title: "Edit Profile Page",
+    user: req.user,
+  });
+});
+
 // running the application
 async function run() {
   // wait for mongoose before starting server
@@ -81,6 +103,30 @@ async function run() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+
+  // const allison = await UserModel.findOne({ name: "Allison" }).exec();
+  // const dennis = await UserModel.findOne({ name: "Dennis" }).exec();
+  // const bob = await UserModel.findOne({ name: "Bob" }).exec();
+  // const gerrit = await UserModel.findOne({ name: "Gerrit" }).exec();
+
+  // const match1 = new MatchesModel();
+  // match1.users = [allison._id, dennis._id];
+  // await match1.save();
+
+  // allison.matches.push(match1._id);
+  // await allison.save();
+  // dennis.matches.push(match1._id);
+  // await dennis.save();
+
+  // // const match2 = new MatchesModel();
+  // // match2.users = [allison._id, gerrit._id];
+  // // await match2.save();
+
+  // const allison2 = await UserModel.findOne({ name: "Allison" })
+  //   .populate("matches")
+  //   .exec();
+
+  // console.log(allison2);
 
   // the express server will run on port 8000
   app.listen(8000, () => {

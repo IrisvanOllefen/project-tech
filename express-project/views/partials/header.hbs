@@ -1,6 +1,6 @@
 <header class="header">
-    <h1>Novel Love</h1>
-    <form action="/login" method="POST">
+    {{#if users}}
+    <form action="/login" method="POST" class="selectButton">
         <select name="userId">
             <option value="">Select User</option>
             {{#each users}}
@@ -10,5 +10,10 @@
             {{/each}}
         </select>
         <input type="submit" value="Go" />
+    </form>
+    {{/if}}
+    <h1>Novel Love</h1>
+    <form action="/edit-profile" method="GET">
+        <input type="submit" value="Edit profile">
     </form>
 </header>
